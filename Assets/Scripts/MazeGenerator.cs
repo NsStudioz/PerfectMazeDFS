@@ -67,6 +67,36 @@ namespace DFS_MazeGenerator
         }
 
 
+        // Create a grid made from cells:
+        private void CreateNewMazeGrid(int _width, int _height)
+        {
+            for (int x = 0; x < _width; x++)
+            {
+                for (int y = 0; y < _height; y++)
+                {
+                    Cell newCell = SpawnNewCellInstance(SetCellInstancePosition(x, y));
+                    newCell.SetCellGameObjectVisibility(false);
+                    AddToTotalCellsList_NewCellInstance(newCell);
+                }
+            }
+        }
+
+        private Cell SpawnNewCellInstance(Vector3 cellPos)
+        {
+            return Instantiate(cellPrefab, cellPos, Quaternion.identity);
+        }
+
+        private Vector3 SetCellInstancePosition(int x, int y)
+        {
+            Vector3 cellPos = new Vector3(x, 0, y);
+            return cellPos;
+        }
+
+        private void AddToTotalCellsList_NewCellInstance(Cell instance)
+        {
+            totalCells.Add(instance);
+        }
+
         #endregion
 
     }
