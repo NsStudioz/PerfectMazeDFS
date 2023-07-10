@@ -40,23 +40,41 @@ namespace DFS_MazeGenerator
             visitedCells = new List<Cell>();
         }
 
-        private void ClearCellLists()
+        private void CleanLists()
         {
             if (gridGenerated)
             {
-                totalCells.Clear();
-                visitedCells.Clear();
+                DestroyCellsInLists();
+                ClearCellLists();
             }
 
             gridGenerated = false;
         }
 
+        private void DestroyCellsInLists()
+        {
+            foreach (Cell cellInstance in totalCells)
+                Destroy(cellInstance.gameObject);
 
+            foreach (Cell cellInstance in visitedCells)
+                Destroy(cellInstance.gameObject);
+        }
 
+        private void ClearCellLists()
+        {
+            totalCells.Clear();
+            visitedCells.Clear();
+        }
 
 
         #endregion
 
     }
 }
+
+
+/*                    Vector3 cellPos = new Vector3(x, 0, y); // Decided not to center the maze.
+                    Cell newCell = SpawnNewCellInstance(cellPos);
+                    newCell.SetCellGameObjectVisibility(false);
+                    totalCells.Add(newCell);*/
 
