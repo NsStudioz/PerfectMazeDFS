@@ -29,20 +29,21 @@ namespace DFS_MazeGenerator
         [SerializeField] private float defaultAnimationSpeed = 0.005f;
         private float InstantGeneration = 0f;
 
+        private enum Direction
+        {
+            Right, Left, Up, Down
+        }
+
         private void Awake()
         {
             InitializeCellLists();
-        }
-
-        void Start()
-        {
-
         }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
+                CleanLists();
                 CreateNewMazeGrid(mazeWidth, mazeHeight);
             }
         }
@@ -143,6 +144,12 @@ namespace DFS_MazeGenerator
         {
             gridGenerated = state;
         }
+
+        #endregion
+
+        #region MazeGeneration:
+
+
 
         #endregion
 
