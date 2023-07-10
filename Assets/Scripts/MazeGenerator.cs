@@ -22,6 +22,7 @@ namespace DFS_MazeGenerator
 
         [Header("Grid Elements")]
         [SerializeField] private bool mazeGenerated = false;
+        [SerializeField] private bool gridGenerated = false;
         [SerializeField] private bool generateMazeInstantly = false;
         //
         [SerializeField] private float gridAnimationSpeed;
@@ -36,6 +37,14 @@ namespace DFS_MazeGenerator
         void Start()
         {
 
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                CreateNewMazeGrid(mazeWidth, mazeHeight);
+            }
         }
 
         #region Grid
@@ -85,6 +94,8 @@ namespace DFS_MazeGenerator
                     AddToTotalCellsList_NewCellInstance(newCell);
                 }
             }
+
+            StartCoroutine(StartGridAnimation(mazeWidth, mazeHeight));
         }
 
         private Cell SpawnNewCellInstance(Vector3 cellPos)
@@ -102,8 +113,6 @@ namespace DFS_MazeGenerator
         {
             totalCells.Add(instance);
         }
-
-
 
         #endregion
 
