@@ -127,6 +127,8 @@ namespace DFS_MazeGenerator
                 yield return new WaitForSeconds(gridAnimationSpeed);
                 totalCells[i].SetCellGameObjectVisibility(true);
             }
+
+            SetGridGeneratedBool(true);
         }
 
         private void CheckAnimationSpeed()
@@ -135,6 +137,11 @@ namespace DFS_MazeGenerator
                 gridAnimationSpeed = InstantGeneration;
             else
                 gridAnimationSpeed = defaultAnimationSpeed;
+        }
+
+        private void SetGridGeneratedBool(bool state)
+        {
+            gridGenerated = state;
         }
 
         #endregion
