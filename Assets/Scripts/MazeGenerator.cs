@@ -21,5 +21,6 @@ namespace DFS_MazeGenerator
         [SerializeField] private List<Cell> visitedCells;
 
 
+    }
 }
 
