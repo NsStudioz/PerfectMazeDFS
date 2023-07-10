@@ -103,8 +103,16 @@ namespace DFS_MazeGenerator
             totalCells.Add(instance);
         }
 
+
+
+        #endregion
+
+        #region Grid_Animations:
+
         private IEnumerator StartGridAnimation(int _width, int _height)
         {
+            CheckAnimationSpeed();
+
             for (int i = 0; i < totalCells.Count; i++)
             {
                 yield return new WaitForSeconds(gridAnimationSpeed);
@@ -119,8 +127,6 @@ namespace DFS_MazeGenerator
             else
                 gridAnimationSpeed = defaultAnimationSpeed;
         }
-
-
 
         #endregion
 
