@@ -20,7 +20,13 @@ namespace DFS_MazeGenerator
         [SerializeField] private List<Cell> totalCells;
         [SerializeField] private List<Cell> visitedCells;
 
-        [SerializeField] private bool gridGenerated = false;
+        [Header("Grid Elements")]
+        [SerializeField] private bool mazeGenerated = false;
+        [SerializeField] private bool generateMazeInstantly = false;
+        //
+        [SerializeField] private float gridAnimationSpeed;
+        [SerializeField] private float defaultAnimationSpeed = 0.005f;
+        private float InstantGeneration = 0f;
 
         private void Awake()
         {
@@ -42,13 +48,13 @@ namespace DFS_MazeGenerator
 
         private void CleanLists()
         {
-            if (gridGenerated)
+            if (mazeGenerated)
             {
                 DestroyCellsInLists();
                 ClearCellLists();
             }
 
-            gridGenerated = false;
+            mazeGenerated = false;
         }
 
         private void DestroyCellsInLists()
@@ -97,10 +103,34 @@ namespace DFS_MazeGenerator
             totalCells.Add(instance);
         }
 
+        private IEnumerator StartGridAnimation(int _width, int _height)
+        {
+            for (int i = 0; i < totalCells.Count; i++)
+            {
+                yield return new WaitForSeconds(gridAnimationSpeed);
+                totalCells[i].SetCellGameObjectVisibility(true);
+            }
+        }
+
+        private void CheckAnimationSpeed()
+        {
+            if (generateMazeInstantly)
+                gridAnimationSpeed = InstantGeneration;
+            else
+                gridAnimationSpeed = defaultAnimationSpeed;
+        }
+
+
+
         #endregion
 
     }
 }
+
+/*        private void SetMazeGeneratedBoolState(bool state)
+        {
+            mazeGenerated = state;
+        }*/
 
 
 /*                    Vector3 cellPos = new Vector3(x, 0, y); // Decided not to center the maze.
