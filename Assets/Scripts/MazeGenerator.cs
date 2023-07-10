@@ -19,6 +19,9 @@ namespace DFS_MazeGenerator
         [SerializeField] private Cell cellPrefab;
         [SerializeField] private List<Cell> totalCells;
         [SerializeField] private List<Cell> visitedCells;
+
+        [SerializeField] private bool gridGenerated = false;
+
         private void Awake()
         {
             InitializeCellLists();
@@ -29,12 +32,30 @@ namespace DFS_MazeGenerator
 
         }
 
+        #region Grid
 
         private void InitializeCellLists()
         {
             totalCells = new List<Cell>();
             visitedCells = new List<Cell>();
         }
+
+        private void ClearCellLists()
+        {
+            if (gridGenerated)
+            {
+                totalCells.Clear();
+                visitedCells.Clear();
+            }
+
+            gridGenerated = false;
+        }
+
+
+
+
+
+        #endregion
 
     }
 }
