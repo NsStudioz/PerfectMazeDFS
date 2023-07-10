@@ -19,7 +19,22 @@ namespace DFS_MazeGenerator
         [SerializeField] private Cell cellPrefab;
         [SerializeField] private List<Cell> totalCells;
         [SerializeField] private List<Cell> visitedCells;
+        private void Awake()
+        {
+            InitializeCellLists();
+        }
 
+        void Start()
+        {
+
+        }
+
+
+        private void InitializeCellLists()
+        {
+            totalCells = new List<Cell>();
+            visitedCells = new List<Cell>();
+        }
 
     }
 }
