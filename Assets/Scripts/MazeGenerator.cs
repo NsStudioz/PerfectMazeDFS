@@ -104,10 +104,7 @@ namespace DFS_MazeGenerator
 
         #endregion
 
-
         #region Grid
-
-
 
         // Create a grid made from cells:
         private void CreateNewMazeGrid(int _width, int _height)
@@ -170,6 +167,18 @@ namespace DFS_MazeGenerator
 
         #endregion
 
+        #region MazeGeneration:
+
+        private void GenerateTheMaze()
+        {
+            Stack<Cell> pointedCell = new Stack<Cell>();
+
+            pointedCell.Push(totalCells[UnityEngine.Random.Range(0, totalCells.Count)]);
+
+            //StartCoroutine(CalculateMazeGeneration(pointedCell));
+        }
+
+        #endregion
 
 
     }
