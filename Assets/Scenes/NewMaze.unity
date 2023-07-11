@@ -200,7 +200,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 552266174}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 100, z: 0}
+  m_LocalPosition: {x: 15, y: 60, z: 15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -236,16 +236,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73d5304b26b0f454ea71047afe7ab998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mazeWidth: 50
-  mazeHeight: 50
+  mazeWidth: 60
+  mazeHeight: 60
   cellPrefab: {fileID: 7893680654130868256, guid: 9531e1972fff67c40bcd17bb92b55f0b, type: 3}
   totalCells: []
   visitedCells: []
-  mazeGenerated: 0
+  isCellVisible: 0
   gridGenerated: 0
   generateMazeInstantly: 0
-  gridAnimationSpeed: 0
-  defaultAnimationSpeed: 0.005
+  animationSpeed: 0.2
 --- !u!4 &690358965
 Transform:
   m_ObjectHideFlags: 0
@@ -353,7 +352,7 @@ Transform:
   m_GameObject: {fileID: 1559052946}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 50, y: 1, z: 50}
+  m_LocalScale: {x: 100, y: 1, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -394,7 +393,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -427,7 +426,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
