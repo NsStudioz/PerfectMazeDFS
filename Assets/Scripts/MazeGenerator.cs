@@ -25,7 +25,7 @@ namespace DFS_MazeGenerator
         [Header("Grid Elements")]
         [SerializeField] private bool gridGenerated = false;
         [SerializeField] private bool generateMazeInstantly = false;
-        private bool mazeGenerated = false;
+        //private bool mazeGenerated = false;
         //
 
         [Range(0.0001f, 1f)]
@@ -37,6 +37,18 @@ namespace DFS_MazeGenerator
         private enum Direction
         {
             Right, Left, Up, Down
+        }
+
+        private Direction OppositeDirection(Direction dir)
+        {
+            switch (dir)
+            {
+                case Direction.Right: return Direction.Left;
+                case Direction.Up: return Direction.Down;
+                case Direction.Down: return Direction.Up;
+                case Direction.Left: return Direction.Right;
+                default: return Direction.Up; // BECUASE WHY THE FUCK NOT
+            }
         }
 
         private void InitializeCellLists()
