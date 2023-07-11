@@ -35,7 +35,7 @@ public class MazeGeneratorOld : MonoBehaviour
         Right,
         Left,
         Up,
-        Down     
+        Down
     }
 
     private void Start()
@@ -62,14 +62,14 @@ public class MazeGeneratorOld : MonoBehaviour
         StopCoroutine(mazeGenerationCoroutine);
     }
 
-/*    private void Update()
-    {
-        if (Input.GetKey(KeyCode.S))
+    /*    private void Update()
         {
-            //StopCoroutine(StartGridAnimation());
-            //StopCoroutine(GenerateTheMazeCopy(mazeWidth, mazeHeight));
-        }
-    }*/
+            if (Input.GetKey(KeyCode.S))
+            {
+                //StopCoroutine(StartGridAnimation());
+                //StopCoroutine(GenerateTheMazeCopy(mazeWidth, mazeHeight));
+            }
+        }*/
 
     public void AdjustMazeWidth(float newValue)
     {
@@ -157,11 +157,11 @@ public class MazeGeneratorOld : MonoBehaviour
                 Vector3 nodePos = new Vector3(x, 0, y); // Decided not to center the maze.
                 CellOld newCell = Instantiate(cellPrefab, nodePos, Quaternion.identity);
 
-                if(isInstantGenerate)
+                if (isInstantGenerate)
                     newCell.SetCellVisible(true);
                 else
                     newCell.SetCellVisible(false);
-                
+
                 totalCells.Add(newCell);
             }
         }
@@ -182,7 +182,8 @@ public class MazeGeneratorOld : MonoBehaviour
 
             int pointedCellIndex = totalCells.IndexOf(pointedCell.Peek());
             int pointedCellX = pointedCellIndex / _height; // example: 46 / 10 (height) = 4 (int). denominates float.
-            int pointedCellY = pointedCellIndex % _height; // example: 46 % 10 = 6 remainder of height.
+            int pointedCellY = pointedCellIndex % _height; // example: 46 % 10.
+
             //Debug.Log(pointedCellIndex);
             //Debug.Log(pointedCellX);
             //Debug.Log(pointedCellY);
@@ -368,7 +369,7 @@ public class MazeGeneratorOld : MonoBehaviour
             {
                 visitedCells.Add(pointedCell.Peek()); // Add the top element of the stack to visited list.
                 pointedCell.Pop(); // pop top element
-            }           
+            }
         }
         return; // avoids crashing:
     }
