@@ -70,8 +70,8 @@ namespace DFS_MazeGenerator
                 CreateNewMazeGrid(mazeWidth, mazeHeight);
             }
 
-/*            if (Input.GetKeyDown(KeyCode.G))
-                GenerateTheMaze();*/
+            if (Input.GetKeyDown(KeyCode.G))
+                GenerateTheMaze();
         }
 
         #region Grid_Cleanup:
@@ -175,12 +175,87 @@ namespace DFS_MazeGenerator
 
             pointedCell.Push(totalCells[UnityEngine.Random.Range(0, totalCells.Count)]);
 
-            //StartCoroutine(CalculateMazeGeneration(pointedCell));
+            StartCoroutine(CalculateMazeGeneration(pointedCell));
+        }
+
+        private IEnumerator CalculateMazeGeneration(Stack<Cell> pointedCell)
+        {
+            while (visitedCells.Count < totalCells.Count)
+            {
+                // check for possible cell neighbours next to the pointed cell:
+                List<int> possibleNeighbours = new List<int>();
+                List<Direction> availableDirs = new List<Direction>();
+                int pointedCellIndex = totalCells.IndexOf(pointedCell.Peek());
+                //
+                CheckAvailableNeighbors(pointedCell, availableDirs, possibleNeighbours, pointedCellIndex);
+                PickNextCellForWork(availableDirs, possibleNeighbours, pointedCell);
+                // avoids crashing:
+                yield return new WaitForSeconds(gridAnimationSpeed);
+            }
+        }
+
+        private void CheckAvailableNeighbors(Stack<Cell> pointedCell, List<Direction> availableDirections, List<int> possibleNeighbours, int cellIndex)
+        {
+            // Calculate the indexes
+            int cellX = cellIndex / mazeHeight; // example: 46 / 10 (height) = 4 (int). denominates float.
+            int cellY = cellIndex % mazeHeight; // example: 46 % 10 = 6 remainder of height.
+
+            // Checking available neighbors.
+            if (cellX < mazeWidth - 1)  // Check right neighbour:
+                CheckTheFollowingNeighbour(pointedCell, availableDirections, Direction.Right, possibleNeighbours, cellIndex + mazeHeight);
+
+            if (cellX > 0) // Check left neighbour:
+                CheckTheFollowingNeighbour(pointedCell, availableDirections, Direction.Left, possibleNeighbours, cellIndex - mazeHeight);
+
+            if (cellY < mazeHeight - 1) // Check above neighbour: we use - 1 since it shouldn't count up to max number of height.
+                CheckTheFollowingNeighbour(pointedCell, availableDirections, Direction.Up, possibleNeighbours, cellIndex + 1);
+
+            if (cellY > 0) // Check below neighbour:
+                CheckTheFollowingNeighbour(pointedCell, availableDirections, Direction.Down, possibleNeighbours, cellIndex - 1);
+        }
+
+        private void CheckTheFollowingNeighbour(Stack<Cell> pointedCell, List<Direction> directions, Direction dir, List<int> neighbours, int Index)
+        {
+            if (ThisNeighbourCellIsNotVisitedAndPointed(pointedCell, Index))
+            {
+                directions.Add(dir);
+                neighbours.Add(Index);
+            }
+        }
+
+        private bool ThisNeighbourCellIsNotVisitedAndPointed(Stack<Cell> pointedCell, int index)
+        {
+            return !visitedCells.Contains(totalCells[index]) && !pointedCell.Contains(totalCells[index]);
+        }
+
+
+        private void PickNextCellForWork(List<Direction> availableDirections, List<int> possibleNeighbours, Stack<Cell> pointedCell)
+        {
+            // Pick next cell:
+            if (availableDirections.Count > 0)
+            {
+                // Pick a random Direction:
+                int pointedDir = UnityEngine.Random.Range(0, availableDirections.Count);
+
+                // Pick the next cell:
+                Cell nextCell = totalCells[possibleNeighbours[pointedDir]];
+                RemoveCellWalls(pointedCell, nextCell, availableDirections[pointedDir]);
+                pointedCell.Push(nextCell);
+            }
+            else // BACKTRACKING
+            {
+                visitedCells.Add(pointedCell.Peek()); // Add the top element of the stack to visited list.
+                pointedCell.Pop(); // pop top element
+            }
+        }
+
+        private void RemoveCellWalls(Stack<Cell> pointedCell, Cell nextCell, Direction pointedCellDir)
+        {
+            pointedCell.Peek().RemoveWall((int)pointedCellDir);
+            nextCell.RemoveWall((int)OppositeDirection(pointedCellDir));
         }
 
         #endregion
-
-
     }
 }
 
