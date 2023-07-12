@@ -52,7 +52,9 @@ public class UI : MonoBehaviour
         generateMazeBtn.onClick.AddListener(GenerateMaze);
         playBtn.onClick.AddListener(StartMazeGame);
         backBtn.onClick.AddListener(ReturnToMainMenu);
-
+        // Sliders:
+        widthSilder.onValueChanged.AddListener(AdjustMazeWidth);
+        heightSilder.onValueChanged.AddListener(AdjustMazeHeight);
     }
 
     private void OnDisable()
@@ -61,7 +63,9 @@ public class UI : MonoBehaviour
         generateMazeBtn.onClick.RemoveAllListeners();
         playBtn.onClick.RemoveAllListeners();
         backBtn.onClick.RemoveAllListeners();
-
+        // Sliders:
+        widthSilder.onValueChanged.RemoveAllListeners();
+        heightSilder.onValueChanged.RemoveAllListeners();
     }
 
     private void GenerateMaze()
@@ -86,6 +90,37 @@ public class UI : MonoBehaviour
     {
         menuPanel.SetActive(true);
         gamePanel.SetActive(false);
+    }
+
+    void AdjustMazeWidth(float value)
+    {
+        SetMazeWidth(Mathf.RoundToInt(value));
+    }
+    void AdjustMazeHeight(float value)
+    {
+        SetMazeHeight(Mathf.RoundToInt(value));
+    }
+
+    private void SetMazeWidth(int widthValue)
+    {
+        widthSilder.value = widthValue;
+        AdjustWidthText(widthValue);
+        OnClickWidthValueChange?.Invoke(widthValue);
+    }
+    private void SetMazeHeight(int heightValue)
+    {
+        heightSilder.value = heightValue;
+        AdjustHeightText(heightValue);
+        OnClickHeightValueChange?.Invoke(heightValue);
+    }
+
+    private void AdjustWidthText(int widthValue)
+    {
+        widthValueText.text = widthValue.ToString();
+    }
+    private void AdjustHeightText(int heightValue)
+    {
+        heightValueText.text = heightValue.ToString();
     }
 
 }
