@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,6 +63,16 @@ namespace DFS_MazeGenerator
             InitializeCellLists();
         }
 
+        private void OnEnable()
+        {
+            UI.OnClickGenerateMaze += GenerateTheMaze;
+        }
+
+        private void OnDisable()
+        {
+            UI.OnClickGenerateMaze -= GenerateTheMaze;
+        }
+
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.F))
@@ -104,7 +115,7 @@ namespace DFS_MazeGenerator
 
         #endregion
 
-        #region Grid
+        #region Grid:
 
         // Create a grid made from cells:
         private void CreateNewMazeGrid(int _width, int _height)
@@ -256,6 +267,11 @@ namespace DFS_MazeGenerator
         }
 
         #endregion
+
+        #region UI_Listeners:
+
+        #endregion
+
     }
 }
 
