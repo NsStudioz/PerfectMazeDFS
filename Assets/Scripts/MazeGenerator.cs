@@ -27,7 +27,6 @@ namespace DFS_MazeGenerator
         [SerializeField] private bool gridGenerated = false;
         [SerializeField] private bool isFastestMazeGeneration = false;
         private bool gridAnimationsGenerated = false;
-        //
 
         [Range(0.0001f, 1f)]
         [Tooltip("Change the animation speed of maze generation")]
@@ -85,24 +84,13 @@ namespace DFS_MazeGenerator
             UI.OnClickMazeGenerationToggleChange += ChangeMazeGenerationMode;
         }
 
-        private void Update()
-        {
-/*            if (Input.GetKeyDown(KeyCode.F))
-            {
-                CleanLists();
-                CreateNewMazeGrid(mazeWidth, mazeHeight);
-            }
-
-            if (Input.GetKeyDown(KeyCode.G))
-                GenerateTheMaze();*/
-        }
-
         #region Grid_Cleanup:
 
         private void CleanLists()
         {
             if (gridGenerated)
             {
+                StopAllCoroutines();
                 DestroyCellsInLists();
                 ClearCellLists();
             }
@@ -293,6 +281,7 @@ namespace DFS_MazeGenerator
 
         private void BeginMazeSimulation()
         {
+            CleanLists();
             CreateNewMazeGrid(mazeWidth, mazeHeight);
         }
 
