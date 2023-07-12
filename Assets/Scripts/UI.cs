@@ -11,9 +11,13 @@ using UnityEngine.Events;
 public class UI : MonoBehaviour
 {
 
-    // Events:
+    // Button Events:
+    public static event Action OnClickGenerateMaze;
+    public static event Action OnClickDestroyMaze;
+    // Silders Events:
     public static event Action<int> OnClickWidthValueChange;
     public static event Action<int> OnClickHeightValueChange;
+    // Toggle Events:
     public static event Action<bool> OnClickMazeGenerationToggleChange;
 
     [Header("Panels")]
@@ -34,8 +38,7 @@ public class UI : MonoBehaviour
     [SerializeField] private Button backBtn;
     [SerializeField] private Toggle generationToggle;
 
-    public static event Action OnClickGenerateMaze;
-    public static event Action OnClickDestroyMaze;
+
     private bool isFastestGeneration = false;
 
     private void Awake() => ConvertSlidersToInt();
