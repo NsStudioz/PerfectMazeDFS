@@ -26,7 +26,7 @@ namespace DFS_MazeGenerator
         [Header("Grid Elements")]
         [SerializeField] private bool gridGenerated = false;
         [SerializeField] private bool isFastestMazeGeneration = false;
-        //private bool mazeGenerated = false;
+        private bool gridAnimationsGenerated = false;
         //
 
         [Range(0.0001f, 1f)]
@@ -65,39 +65,36 @@ namespace DFS_MazeGenerator
 
         private void OnEnable()
         {
+            // Buttons:
             UI.OnClickGenerateMaze += BeginMazeSimulation;
-            //
+            // Sliders:
             UI.OnClickWidthValueChange += ChangeMazeWidth;
             UI.OnClickHeightValueChange += ChangeMazeHeight;
-            //
+            // Toggle:
             UI.OnClickMazeGenerationToggleChange += ChangeMazeGenerationMode;
-        }
-
-        private void ChangeMazeGenerationMode(bool state)
-        {
-            isFastestMazeGeneration = state;
         }
 
         private void OnDisable()
         {
+            // Buttons:
             UI.OnClickGenerateMaze -= BeginMazeSimulation;
-            //
+            // Sliders:
             UI.OnClickWidthValueChange -= ChangeMazeWidth;
             UI.OnClickHeightValueChange -= ChangeMazeHeight;
-            //
+            // Toggle:
             UI.OnClickMazeGenerationToggleChange += ChangeMazeGenerationMode;
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.F))
+/*            if (Input.GetKeyDown(KeyCode.F))
             {
                 CleanLists();
                 CreateNewMazeGrid(mazeWidth, mazeHeight);
             }
 
             if (Input.GetKeyDown(KeyCode.G))
-                GenerateTheMaze();
+                GenerateTheMaze();*/
         }
 
         #region Grid_Cleanup:
@@ -181,6 +178,9 @@ namespace DFS_MazeGenerator
                 yield return new WaitForSeconds(gridAnimationSpeed);
                 totalCells[i].SetCellGameObjectVisibility(true);
             }
+
+            gridAnimationsGenerated = true;
+            BeginDepthFirstSearchMazeSimulation();
         }
 
         private void CheckAnimationSpeed()
@@ -189,6 +189,12 @@ namespace DFS_MazeGenerator
                 gridAnimationSpeed = fastestGeneration;
             else
                 gridAnimationSpeed = animationSpeed;
+        }
+
+        private void BeginDepthFirstSearchMazeSimulation()
+        {
+            if (gridAnimationsGenerated)
+                GenerateTheMaze();
         }
 
         #endregion
@@ -285,6 +291,11 @@ namespace DFS_MazeGenerator
 
         #region UI_Listeners:
 
+        private void BeginMazeSimulation()
+        {
+            CreateNewMazeGrid(mazeWidth, mazeHeight);
+        }
+
         private void ChangeMazeHeight(int value)
         {
             mazeHeight = value;
@@ -295,9 +306,9 @@ namespace DFS_MazeGenerator
             mazeWidth = value;
         }
 
-        private void BeginMazeSimulation()
+        private void ChangeMazeGenerationMode(bool state)
         {
-            CreateNewMazeGrid(mazeWidth, mazeHeight);
+            isFastestMazeGeneration = state;
         }
 
         #endregion
