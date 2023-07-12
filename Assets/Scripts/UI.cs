@@ -55,6 +55,8 @@ public class UI : MonoBehaviour
         // Sliders:
         widthSilder.onValueChanged.AddListener(AdjustMazeWidth);
         heightSilder.onValueChanged.AddListener(AdjustMazeHeight);
+        // Toggle:
+        generationToggle.onValueChanged.AddListener(SetMazeGenerationMode);
     }
 
     private void OnDisable()
@@ -66,7 +68,11 @@ public class UI : MonoBehaviour
         // Sliders:
         widthSilder.onValueChanged.RemoveAllListeners();
         heightSilder.onValueChanged.RemoveAllListeners();
+        // Toggle:
+        generationToggle.onValueChanged.RemoveAllListeners();
     }
+
+    #region Buttons:
 
     private void GenerateMaze()
     {
@@ -91,6 +97,11 @@ public class UI : MonoBehaviour
         menuPanel.SetActive(true);
         gamePanel.SetActive(false);
     }
+
+    #endregion
+
+
+    #region Sliders:
 
     void AdjustMazeWidth(float value)
     {
@@ -122,5 +133,19 @@ public class UI : MonoBehaviour
     {
         heightValueText.text = heightValue.ToString();
     }
+
+    #endregion
+
+
+    #region Toggle:
+
+    private void SetMazeGenerationMode(bool state)
+    {
+        isFastestGeneration = !state;
+        OnClickMazeGenerationToggleChange?.Invoke(state);
+    }
+
+    #endregion
+
 
 }
