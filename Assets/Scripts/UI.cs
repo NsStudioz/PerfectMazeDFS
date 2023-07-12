@@ -36,6 +36,8 @@ public class UI : MonoBehaviour
     [SerializeField] private Button generateMazeBtn;
     [SerializeField] private Button playBtn;
     [SerializeField] private Button backBtn;
+
+    [Header("Toggle")]
     [SerializeField] private Toggle generationToggle;
 
 
