@@ -393,6 +393,12 @@ namespace DFS_MazeGenerator
             OnClickMazeGenerationToggleChange?.Invoke(state);
         }
     }
+
+
+    public class Maze
+    {
+
+    }
 }
 
 
