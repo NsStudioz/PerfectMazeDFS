@@ -25,7 +25,7 @@ namespace DFS_MazeGenerator
 
         [Header("Grid Elements")]
         [SerializeField] private bool gridGenerated = false;
-        [SerializeField] private bool generateMazeInstantly = false;
+        [SerializeField] private bool isFastestMazeGeneration = false;
         //private bool mazeGenerated = false;
         //
 
@@ -65,12 +65,27 @@ namespace DFS_MazeGenerator
 
         private void OnEnable()
         {
-            UI.OnClickGenerateMaze += GenerateTheMaze;
+            UI.OnClickGenerateMaze += BeginMazeSimulation;
+            //
+            UI.OnClickWidthValueChange += ChangeMazeWidth;
+            UI.OnClickHeightValueChange += ChangeMazeHeight;
+            //
+            UI.OnClickMazeGenerationToggleChange += ChangeMazeGenerationMode;
+        }
+
+        private void ChangeMazeGenerationMode(bool state)
+        {
+            isFastestMazeGeneration = state;
         }
 
         private void OnDisable()
         {
-            UI.OnClickGenerateMaze -= GenerateTheMaze;
+            UI.OnClickGenerateMaze -= BeginMazeSimulation;
+            //
+            UI.OnClickWidthValueChange -= ChangeMazeWidth;
+            UI.OnClickHeightValueChange -= ChangeMazeHeight;
+            //
+            UI.OnClickMazeGenerationToggleChange += ChangeMazeGenerationMode;
         }
 
         private void Update()
@@ -170,7 +185,7 @@ namespace DFS_MazeGenerator
 
         private void CheckAnimationSpeed()
         {
-            if (generateMazeInstantly)
+            if (isFastestMazeGeneration)
                 gridAnimationSpeed = fastestGeneration;
             else
                 gridAnimationSpeed = animationSpeed;
@@ -269,6 +284,21 @@ namespace DFS_MazeGenerator
         #endregion
 
         #region UI_Listeners:
+
+        private void ChangeMazeHeight(int value)
+        {
+            mazeHeight = value;
+        }
+
+        private void ChangeMazeWidth(int value)
+        {
+            mazeWidth = value;
+        }
+
+        private void BeginMazeSimulation()
+        {
+            CreateNewMazeGrid(mazeWidth, mazeHeight);
+        }
 
         #endregion
 
