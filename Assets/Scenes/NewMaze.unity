@@ -161,6 +161,7 @@ MonoBehaviour:
   generateMazeBtn: {fileID: 4924735756968480660}
   playBtn: {fileID: 4924735757674487975}
   backBtn: {fileID: 4924735757161595169}
+  generationToggle: {fileID: 4924735757527530518}
 --- !u!4 &429202347
 Transform:
   m_ObjectHideFlags: 0
@@ -334,7 +335,7 @@ MonoBehaviour:
   visitedCells: []
   isCellVisible: 0
   gridGenerated: 0
-  generateMazeInstantly: 0
+  isFastestMazeGeneration: 0
   animationSpeed: 0.2
 --- !u!4 &690358965
 Transform:
@@ -1714,7 +1715,7 @@ GameObject:
   - component: {fileID: 4924735756968480661}
   - component: {fileID: 4924735756968480660}
   m_Layer: 5
-  m_Name: GenerateMaze_BTN
+  m_Name: GenerateMaze_Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2187,7 +2188,7 @@ GameObject:
   - component: {fileID: 4924735757161595170}
   - component: {fileID: 4924735757161595169}
   m_Layer: 5
-  m_Name: Back_BTN
+  m_Name: Back_Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2573,7 +2574,7 @@ GameObject:
   - component: {fileID: 4924735757513774882}
   - component: {fileID: 4924735757513774883}
   m_Layer: 5
-  m_Name: Slider_Width
+  m_Name: Width_Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2648,7 +2649,7 @@ MonoBehaviour:
   m_Direction: 0
   m_MinValue: 10
   m_MaxValue: 250
-  m_WholeNumbers: 1
+  m_WholeNumbers: 0
   m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2676,7 +2677,7 @@ GameObject:
   - component: {fileID: 4924735757527530517}
   - component: {fileID: 4924735757527530518}
   m_Layer: 5
-  m_Name: InstantGenerateToggle
+  m_Name: MazeGenerateModeToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3004,7 +3005,7 @@ GameObject:
   - component: {fileID: 4924735757674487968}
   - component: {fileID: 4924735757674487975}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Play_Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3586,7 +3587,7 @@ GameObject:
   - component: {fileID: 4924735758177330386}
   - component: {fileID: 4924735758177330387}
   m_Layer: 5
-  m_Name: Slider_Height
+  m_Name: Height_Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
