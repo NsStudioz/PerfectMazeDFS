@@ -17,6 +17,14 @@ namespace DFS_MazeGenerator
         [Range(10, 250)]
         private int mazeHeight;
 
+        [SerializeField]
+        [Range(10, 250)]
+        private int mazeWidth_Slider;
+
+        [SerializeField]
+        [Range(10, 250)]
+        private int mazeHeight_Slider;
+
         [Header("Cell Elements")]
         [SerializeField] private Cell cellPrefab;
         [SerializeField] private List<Cell> totalCells; 
@@ -51,12 +59,6 @@ namespace DFS_MazeGenerator
             }
         }
 
-        private void InitializeCellLists()
-        {
-            totalCells = new List<Cell>();
-            visitedCells = new List<Cell>();
-        }
-
         private void Awake()
         {
             InitializeCellLists();
@@ -85,6 +87,21 @@ namespace DFS_MazeGenerator
             // Toggle:
             UI.OnClickMazeGenerationToggleChange += ChangeMazeGenerationMode;
         }
+
+        #region Initializations:
+        private void InitializeCellLists()
+        {
+            totalCells = new List<Cell>();
+            visitedCells = new List<Cell>();
+        }
+
+        private void InitializeMazeSizeValues()
+        {
+            mazeWidth = mazeWidth_Slider;
+            mazeHeight = mazeHeight_Slider;
+        }
+
+        #endregion
 
         #region Grid_Cleanup:
 
@@ -282,21 +299,21 @@ namespace DFS_MazeGenerator
         #region UI_Listeners:
 
         private void BeginMazeSimulation()
-        {
+        {      
             CleanLists();
+            InitializeMazeSizeValues();
             CreateNewMazeGrid(mazeWidth, mazeHeight);
         }
 
         private void DestroyMazeSimulation() => CleanLists();
 
-        private void ChangeMazeHeight(int value)
-        {
-            mazeHeight = value;
-        }
-
         private void ChangeMazeWidth(int value)
         {
-            mazeWidth = value;
+            mazeWidth_Slider = value;
+        }
+        private void ChangeMazeHeight(int value)
+        {
+            mazeHeight_Slider = value;
         }
 
         private void ChangeMazeGenerationMode(bool state)

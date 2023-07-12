@@ -332,6 +332,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mazeWidth: 10
   mazeHeight: 10
+  mazeWidth_Slider: 10
+  mazeHeight_Slider: 10
   cellPrefab: {fileID: 7893680654130868256, guid: 9531e1972fff67c40bcd17bb92b55f0b, type: 3}
   totalCells: []
   visitedCells: []
