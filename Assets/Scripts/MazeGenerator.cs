@@ -10,11 +10,11 @@ namespace DFS_MazeGenerator
     {
         [Header("Maze Size")]
         [SerializeField]
-        [Range(10, 250)]
+        [Range(10, 200)]
         private int mazeWidth_Slider;
 
         [SerializeField]
-        [Range(10, 250)]
+        [Range(10, 200)]
         private int mazeHeight_Slider;
         //
         private int mazeWidth;

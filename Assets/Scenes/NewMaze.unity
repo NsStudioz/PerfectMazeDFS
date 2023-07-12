@@ -294,7 +294,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 552266174}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 15, y: 60, z: 15}
+  m_LocalPosition: {x: 0, y: 100, z: 0}
   m_LocalScale: {x: 1, y: 1.0000002, z: 1.0000002}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -330,16 +330,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73d5304b26b0f454ea71047afe7ab998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mazeWidth: 10
-  mazeHeight: 10
   mazeWidth_Slider: 10
   mazeHeight_Slider: 10
   cellPrefab: {fileID: 7893680654130868256, guid: 9531e1972fff67c40bcd17bb92b55f0b, type: 3}
   totalCells: []
   visitedCells: []
   isCellVisible: 0
-  gridGenerated: 0
-  isFastestMazeGeneration: 0
   animationSpeed: 0.05
 --- !u!4 &690358965
 Transform:
@@ -2684,7 +2680,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 4924735756826442203}
   m_Direction: 0
   m_MinValue: 10
-  m_MaxValue: 250
+  m_MaxValue: 200
   m_WholeNumbers: 0
   m_Value: 10
   m_OnValueChanged:
@@ -2950,7 +2946,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 340, y: 275}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 150, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4924735757642838998
 MonoBehaviour:
@@ -3697,7 +3693,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 4924735757455585511}
   m_Direction: 0
   m_MinValue: 10
-  m_MaxValue: 250
+  m_MaxValue: 200
   m_WholeNumbers: 0
   m_Value: 10
   m_OnValueChanged:
@@ -3926,7 +3922,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 340, y: 75}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 150, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4924735758479249001
 GameObject:
