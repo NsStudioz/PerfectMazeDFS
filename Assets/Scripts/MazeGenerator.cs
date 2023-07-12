@@ -11,29 +11,24 @@ namespace DFS_MazeGenerator
         [Header("Maze Size")]
         [SerializeField]
         [Range(10, 250)]
-        private int mazeWidth;
-
-        [SerializeField]
-        [Range(10, 250)]
-        private int mazeHeight;
-
-        [SerializeField]
-        [Range(10, 250)]
         private int mazeWidth_Slider;
 
         [SerializeField]
         [Range(10, 250)]
         private int mazeHeight_Slider;
+        //
+        private int mazeWidth;
+        private int mazeHeight;
 
         [Header("Cell Elements")]
         [SerializeField] private Cell cellPrefab;
         [SerializeField] private List<Cell> totalCells; 
         [SerializeField] private List<Cell> visitedCells;
-        public bool isCellVisible = false;
+        [SerializeField] private bool isCellVisible = false;
 
         [Header("Grid Elements")]
-        [SerializeField] private bool gridGenerated = false;
-        [SerializeField] private bool isFastestMazeGeneration = false;
+        private bool gridGenerated = false;
+        private bool isFastestMazeGeneration = false;
         private bool gridAnimationsGenerated = false;
 
         [Range(0.0001f, 1f)]
@@ -114,6 +109,7 @@ namespace DFS_MazeGenerator
                 ClearCellLists();
             }
 
+            gridAnimationsGenerated = false;
             gridGenerated = false;
         }
 
