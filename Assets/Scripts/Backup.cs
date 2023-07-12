@@ -265,8 +265,6 @@ namespace DFS_MazeGenerator
 
     }
 
-
-
     public class UI_Backup
     {
         // Events:
@@ -395,10 +393,6 @@ namespace DFS_MazeGenerator
     }
 
 
-    public class Maze
-    {
-
-    }
 }
 
 
