@@ -66,6 +66,7 @@ namespace DFS_MazeGenerator
         {
             // Buttons:
             UI.OnClickGenerateMaze += BeginMazeSimulation;
+            UI.OnClickDestroyMaze += DestroyMazeSimulation;
             // Sliders:
             UI.OnClickWidthValueChange += ChangeMazeWidth;
             UI.OnClickHeightValueChange += ChangeMazeHeight;
@@ -77,6 +78,7 @@ namespace DFS_MazeGenerator
         {
             // Buttons:
             UI.OnClickGenerateMaze -= BeginMazeSimulation;
+            UI.OnClickDestroyMaze -= DestroyMazeSimulation;
             // Sliders:
             UI.OnClickWidthValueChange -= ChangeMazeWidth;
             UI.OnClickHeightValueChange -= ChangeMazeHeight;
@@ -284,6 +286,8 @@ namespace DFS_MazeGenerator
             CleanLists();
             CreateNewMazeGrid(mazeWidth, mazeHeight);
         }
+
+        private void DestroyMazeSimulation() => CleanLists();
 
         private void ChangeMazeHeight(int value)
         {
