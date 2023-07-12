@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,8 +8,10 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Vector3 newCameraPos = Vector3.zero;
     [SerializeField] private float moveSpeed; 
 
-    private int minValue = -250;
-    private int maxValue = 250;
+    private int XZminValue = -250;
+    private int XZmaxValue = 250;
+    private int YminValue = -95;
+    private int YmaxValue = 150;
 
 
     private void Start()
@@ -19,6 +22,8 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
+        ClampCameraPositions();
+
         if (Input.GetKey(KeyCode.W))
             MoveCameraUp();
 
@@ -30,12 +35,31 @@ public class CameraController : MonoBehaviour
 
         else if (Input.GetKey(KeyCode.A))
             MoveCameraLeft();
+
+        if (Input.GetKey(KeyCode.E))
+            ZoomIn();
+
+        else if (Input.GetKey(KeyCode.Q))
+            ZoomOut();
+    }
+
+    private void ZoomIn()
+    {
+        newCameraPos.y -= MovementSpeed();
+        UpdateNewPosition();
+    }
+
+    private void ZoomOut()
+    {
+        newCameraPos.y += MovementSpeed();
+        UpdateNewPosition();
     }
 
     private void ClampCameraPositions()
     {
-        newCameraPos.x = Mathf.Clamp(minValue, 0, maxValue);
-        newCameraPos.z = Mathf.Clamp(minValue, 0, maxValue);
+        newCameraPos.x = Mathf.Clamp(newCameraPos.x, XZminValue, XZmaxValue);
+        newCameraPos.z = Mathf.Clamp(newCameraPos.z, XZminValue, XZmaxValue);
+        newCameraPos.y = Mathf.Clamp(newCameraPos.y, YminValue, YmaxValue);
     }
 
     private void MoveCameraUp()
