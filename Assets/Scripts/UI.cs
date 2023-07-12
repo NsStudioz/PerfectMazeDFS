@@ -46,4 +46,46 @@ public class UI : MonoBehaviour
         heightSilder.wholeNumbers = true;
     }
 
+    private void OnEnable()
+    {
+        // Buttons:
+        generateMazeBtn.onClick.AddListener(GenerateMaze);
+        playBtn.onClick.AddListener(StartMazeGame);
+        backBtn.onClick.AddListener(ReturnToMainMenu);
+
+    }
+
+    private void OnDisable()
+    {
+        // Buttons:
+        generateMazeBtn.onClick.RemoveAllListeners();
+        playBtn.onClick.RemoveAllListeners();
+        backBtn.onClick.RemoveAllListeners();
+
+    }
+
+    private void GenerateMaze()
+    {
+        OnClickGenerateMaze?.Invoke();
+    }
+
+    private void StartMazeGame() => ShowGamePanel();
+
+    private void ReturnToMainMenu()
+    {
+        ShowMenuPanel();
+        OnClickDestroyMaze?.Invoke();
+    }
+
+    private void ShowGamePanel()
+    {
+        menuPanel.SetActive(false);
+        gamePanel.SetActive(true);
+    }
+    private void ShowMenuPanel()
+    {
+        menuPanel.SetActive(true);
+        gamePanel.SetActive(false);
+    }
+
 }
