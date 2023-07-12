@@ -38,5 +38,12 @@ public class UI : MonoBehaviour
     public static event Action OnClickDestroyMaze;
     private bool isFastestGeneration = false;
 
+    private void Awake() => ConvertSlidersToInt();
+
+    private void ConvertSlidersToInt()
+    {
+        widthSilder.wholeNumbers = true;
+        heightSilder.wholeNumbers = true;
+    }
 
 }
