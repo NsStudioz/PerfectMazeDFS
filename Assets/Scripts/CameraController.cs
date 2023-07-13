@@ -2,89 +2,27 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class CameraController : MonoBehaviour
 {
+
+    [Header("Elements")]
     [SerializeField] private Vector3 newCameraPos = Vector3.zero;
-    [SerializeField] private float moveSpeed; 
+    [SerializeField] private float moveSpeed;
+
+    private int moveIndex;
+    private bool isMovePointerDown;
+    private int zoomIndex;
+    private bool isZoomPointerDown;
 
     private int XZminValue = -250;
     private int XZmaxValue = 250;
     private int YminValue = -95;
     private int YmaxValue = 150;
 
-
-    private void Start()
-    {
-        ClampCameraPositions();
-        UpdateNewPosition();
-    }
-
-    private void Update()
-    {
-        ClampCameraPositions();
-
-        if (Input.GetKey(KeyCode.W))
-            MoveCameraUp();
-
-        else if (Input.GetKey(KeyCode.S))
-            MoveCameraDown();
-
-        if (Input.GetKey(KeyCode.D))
-            MoveCameraRight();
-
-        else if (Input.GetKey(KeyCode.A))
-            MoveCameraLeft();
-
-        if (Input.GetKey(KeyCode.E))
-            ZoomIn();
-
-        else if (Input.GetKey(KeyCode.Q))
-            ZoomOut();
-    }
-
-    private void ZoomIn()
-    {
-        newCameraPos.y -= MovementSpeed();
-        UpdateNewPosition();
-    }
-
-    private void ZoomOut()
-    {
-        newCameraPos.y += MovementSpeed();
-        UpdateNewPosition();
-    }
-
-    private void ClampCameraPositions()
-    {
-        newCameraPos.x = Mathf.Clamp(newCameraPos.x, XZminValue, XZmaxValue);
-        newCameraPos.z = Mathf.Clamp(newCameraPos.z, XZminValue, XZmaxValue);
-        newCameraPos.y = Mathf.Clamp(newCameraPos.y, YminValue, YmaxValue);
-    }
-
-    private void MoveCameraUp()
-    {
-        newCameraPos.z += MovementSpeed();
-        UpdateNewPosition();
-    }
-
-    private void MoveCameraDown()
-    {
-        newCameraPos.z -= MovementSpeed();
-        UpdateNewPosition();
-    }
-
-    private void MoveCameraRight()
-    {
-        newCameraPos.x += MovementSpeed();
-        UpdateNewPosition();
-    }
-
-    private void MoveCameraLeft()
-    {
-        newCameraPos.x -= MovementSpeed();
-        UpdateNewPosition();
-    }
+    #region Helpers:
 
     private float MovementSpeed()
     {
@@ -96,4 +34,172 @@ public class CameraController : MonoBehaviour
         transform.position = newCameraPos;
     }
 
+    private void ClampCameraPositions()
+    {
+        newCameraPos.x = Mathf.Clamp(newCameraPos.x, XZminValue, XZmaxValue);
+        newCameraPos.z = Mathf.Clamp(newCameraPos.z, XZminValue, XZmaxValue);
+        newCameraPos.y = Mathf.Clamp(newCameraPos.y, YminValue, YmaxValue);
+    }
+
+    #endregion
+
+    private void Start()
+    {
+        ClampCameraPositions();
+        UpdateNewPosition();
+    }
+
+    private void OnEnable()
+    {
+        MoveCameraPointers.OnMoveButtonClicked += SetMovePointersState;
+        ZoomCameraPointers.OnZoomButtonClicked += SetZoomPointersState;
+    }
+
+    private void OnDisable()
+    {
+        MoveCameraPointers.OnMoveButtonClicked -= SetMovePointersState;
+        ZoomCameraPointers.OnZoomButtonClicked -= SetZoomPointersState;
+    }
+
+    private void Update()
+    {
+        MoveCameraWithPointers();
+        ZoomCameraWithPointers();
+        ClampCameraPositions();
+    }
+
+    #region Pointer_Listeners:
+
+    private void SetMovePointersState(int moveIndex, bool isMovePointerDown)
+    {
+        this.moveIndex = moveIndex;
+        this.isMovePointerDown = isMovePointerDown;
+
+/*        Debug.Log("Index = " + this.index);
+        Debug.Log("PointerDown = " + this.isPointerDown);*/
+    }
+
+    private void SetZoomPointersState(int zoomIndex, bool isZoomPointerDown)
+    {
+        this.zoomIndex = zoomIndex;
+        this.isZoomPointerDown = isZoomPointerDown;
+    }
+
+    private void MoveCameraWithPointers() // 0 - Right, 1 - Left, 2 - Up, 3 - Down
+    {
+        if (!isMovePointerDown)
+            return;
+
+        if (moveIndex == 0)
+            MoveCameraRight();
+        else if (moveIndex == 1)
+            MoveCameraLeft();
+        else if (moveIndex == 2)
+            MoveCameraUp();
+        else if (moveIndex == 3)
+            MoveCameraDown();
+    }
+
+    private void ZoomCameraWithPointers() // 0 - Right, 1 - Left, 2 - Up, 3 - Down
+    {
+        if (!isZoomPointerDown)
+            return;
+
+        if (zoomIndex == 0)
+            ZoomIn();
+        else if (zoomIndex == 1)
+            ZoomOut();
+    }
+
+    #endregion
+
+    #region Movement:
+
+    private void MoveCameraUp()
+    {
+        newCameraPos.z += MovementSpeed();
+        UpdateNewPosition();
+    }
+    private void MoveCameraDown()
+    {
+        newCameraPos.z -= MovementSpeed();
+        UpdateNewPosition();
+    }
+    private void MoveCameraRight()
+    {
+        newCameraPos.x += MovementSpeed();
+        UpdateNewPosition();
+    }
+    private void MoveCameraLeft()
+    {
+        newCameraPos.x -= MovementSpeed();
+        UpdateNewPosition();
+    }
+
+    #endregion
+
+    #region Zoom:
+
+    private void ZoomIn()
+    {
+        newCameraPos.y -= MovementSpeed();
+        UpdateNewPosition();
+    }
+    private void ZoomOut()
+    {
+        newCameraPos.y += MovementSpeed();
+        UpdateNewPosition();
+    }
+
+    #endregion
+
+    #region PC_Controls:
+    private void ZoomCameraControls_PC()
+    {
+        if (Input.GetKey(KeyCode.E))
+            ZoomIn();
+
+        else if (Input.GetKey(KeyCode.Q))
+            ZoomOut();
+    }
+
+    private void MoveCameraControls_PC()
+    {
+        if (Input.GetKey(KeyCode.W))
+            MoveCameraUp();
+
+        else if (Input.GetKey(KeyCode.S))
+            MoveCameraDown();
+
+        if (Input.GetKey(KeyCode.D))
+            MoveCameraRight();
+
+        else if (Input.GetKey(KeyCode.A))
+            MoveCameraLeft();
+    }
+
+    #endregion
+
+
+
+
 }
+
+//[SerializeField] private Button[] movementButtons; // 0 - Right, 1 - Left, 2 - Up, 3 - Down
+
+/*    private void InitializeMovementButtons() // 0 - Right, 1 - Left, 2 - Up, 3 - Down
+    {
+        for (int i = 0; i < movementButtons.Length; i++) 
+        {
+            int buttonIndex = i;
+            movementButtons[buttonIndex].onClick.AddListener(() => {
+                ClampCameraPositions();
+            });
+        }
+    }*/
+
+/*    private void RemoveAllMovementButtonsListeners()
+    {
+        for (int i = 0; i < movementButtons.Length; i++)
+            movementButtons[i].onClick.RemoveAllListeners();
+    }*/
