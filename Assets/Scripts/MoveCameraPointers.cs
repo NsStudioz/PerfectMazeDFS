@@ -1,34 +1,32 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MoveCameraPointers : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+namespace PerfectMazeDFS_Pointers
 {
-
-    public static event Action<int, bool> OnMoveButtonClicked;
-
-    [SerializeField] private int moveDirection;
-    private bool isMovePointerDown = false;
-
-    public void OnPointerDown(PointerEventData eventData)
+    public class MoveCameraPointers : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
-        isMovePointerDown = true;
-        ContinousButtonInvokes();
-    }
 
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        isMovePointerDown = false;
-        ContinousButtonInvokes();
-    }
+        public static event Action<int, bool> OnMoveButtonClicked;
 
-    private void ContinousButtonInvokes()
-    {
-        OnMoveButtonClicked?.Invoke(moveDirection, isMovePointerDown);
+        [SerializeField] private int moveDirection;
+        private bool isMovePointerDown = false;
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            isMovePointerDown = true;
+            ContinousButtonInvokes();
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            isMovePointerDown = false;
+            ContinousButtonInvokes();
+        }
+
+        private void ContinousButtonInvokes()
+        {
+            OnMoveButtonClicked?.Invoke(moveDirection, isMovePointerDown);
+        }
     }
 }
-
-//InvokeRepeating("ContinousButtonInvokes", 0f, 0.1f);

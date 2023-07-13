@@ -1,15 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using PerfectMazeDFS_Pointers;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class CameraController : MonoBehaviour
 {
 
     [Header("Elements")]
-    [SerializeField] private Vector3 newCameraPos = Vector3.zero;
+    [SerializeField] private Vector3 newCameraPos;
     [SerializeField] private float moveSpeed;
 
     private int moveIndex;
@@ -184,6 +180,8 @@ public class CameraController : MonoBehaviour
 
 
 }
+
+//InvokeRepeating("ContinousButtonInvokes", 0f, 0.1f);
 
 //[SerializeField] private Button[] movementButtons; // 0 - Right, 1 - Left, 2 - Up, 3 - Down
 

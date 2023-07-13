@@ -1137,8 +1137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da70680f3709b414792efcebb3d87306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newCameraPos: {x: 0, y: 0, z: 0}
-  moveSpeed: 60
+  newCameraPos: {x: 0, y: 0, z: 40}
+  moveSpeed: 40
 --- !u!4 &1426583582
 Transform:
   m_ObjectHideFlags: 0
