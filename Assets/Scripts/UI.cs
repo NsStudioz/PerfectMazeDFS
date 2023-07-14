@@ -23,6 +23,7 @@ namespace PerfectMazeDFS
         [Header("Panels")]
         [SerializeField] private GameObject menuPanel;
         [SerializeField] private GameObject gamePanel;
+        [SerializeField] private GameObject controlsUI;
 
         [Header("Maze Value Texts")]
         [SerializeField] private TMP_Text widthValueText;
@@ -95,11 +96,13 @@ namespace PerfectMazeDFS
         {
             menuPanel.SetActive(false);
             gamePanel.SetActive(true);
+            controlsUI.SetActive(true);
         }
         private void ShowMenuPanel()
         {
             menuPanel.SetActive(true);
             gamePanel.SetActive(false);
+            controlsUI.SetActive(false);
         }
 
         #endregion
