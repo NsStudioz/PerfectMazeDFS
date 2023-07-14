@@ -6,36 +6,38 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DFS_MazeGenerator
+namespace PerfectMazeDFS
 {
     public class Backup : MonoBehaviour
     {
         [Header("Maze Size")]
         [SerializeField]
-        [Range(10, 250)]
-        private int mazeWidth;
+        [Range(10, 200)]
+        private int mazeWidth_Slider;
 
         [SerializeField]
-        [Range(10, 250)]
+        [Range(10, 200)]
+        private int mazeHeight_Slider;
+        //
+        private int mazeWidth;
         private int mazeHeight;
 
         [Header("Cell Elements")]
         [SerializeField] private Cell cellPrefab;
         [SerializeField] private List<Cell> totalCells;
         [SerializeField] private List<Cell> visitedCells;
-        public bool isCellVisible = false;
+        [SerializeField] private bool isCellVisible = false;
 
         [Header("Grid Elements")]
-        [SerializeField] private bool gridGenerated = false;
-        [SerializeField] private bool generateMazeInstantly = false;
-        //
-        private float gridAnimationSpeed;
+        private bool gridGenerated = false;
+        private bool isFastestMazeGeneration = false;
+        private bool gridAnimationsGenerated = false;
 
         [Range(0.0001f, 1f)]
         [Tooltip("Change the animation speed of maze generation")]
         [SerializeField] private float animationSpeed = 0.005f;
-        private float InstantGeneration = 0f;
-        private bool mazeGenerated = false;
+        private float fastestGeneration = 0f;
+        private float gridAnimationSpeed;
 
         private enum Direction
         {
@@ -59,35 +61,58 @@ namespace DFS_MazeGenerator
             InitializeCellLists();
         }
 
-        private void Update()
+        private void OnEnable()
         {
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                CleanLists();
-                CreateNewMazeGrid(mazeWidth, mazeHeight);
-            }
-
-            if (Input.GetKeyDown(KeyCode.G))
-                GenerateTheMaze();
+            // Buttons:
+            UI.OnClickGenerateMaze += BeginMazeSimulation;
+            UI.OnClickDestroyMaze += DestroyMazeSimulation;
+            // Sliders:
+            UI.OnClickWidthValueChange += ChangeMazeWidth;
+            UI.OnClickHeightValueChange += ChangeMazeHeight;
+            // Toggle:
+            UI.OnClickMazeGenerationToggleChange += ChangeMazeGenerationMode;
         }
 
-        #region Grid
+        private void OnDisable()
+        {
+            // Buttons:
+            UI.OnClickGenerateMaze -= BeginMazeSimulation;
+            UI.OnClickDestroyMaze -= DestroyMazeSimulation;
+            // Sliders:
+            UI.OnClickWidthValueChange -= ChangeMazeWidth;
+            UI.OnClickHeightValueChange -= ChangeMazeHeight;
+            // Toggle:
+            UI.OnClickMazeGenerationToggleChange += ChangeMazeGenerationMode;
+        }
 
+        #region Initializations:
         private void InitializeCellLists()
         {
             totalCells = new List<Cell>();
             visitedCells = new List<Cell>();
         }
 
+        private void InitializeMazeSizeValues()
+        {
+            mazeWidth = mazeWidth_Slider;
+            mazeHeight = mazeHeight_Slider;
+        }
+
+        #endregion
+
+        #region Grid_Cleanup:
+
         private void CleanLists()
         {
-            if (mazeGenerated)
+            if (gridGenerated)
             {
+                StopAllCoroutines();
                 DestroyCellsInLists();
                 ClearCellLists();
             }
 
-            mazeGenerated = false;
+            gridAnimationsGenerated = false;
+            gridGenerated = false;
         }
 
         private void DestroyCellsInLists()
@@ -105,12 +130,16 @@ namespace DFS_MazeGenerator
             visitedCells.Clear();
         }
 
+        #endregion
+
+        #region Grid:
 
         // Create a grid made from cells:
         private void CreateNewMazeGrid(int _width, int _height)
         {
             this.mazeHeight = _height;
             this.mazeWidth = _width;
+            //
             for (int x = 0; x < _width; x++)
             {
                 for (int y = 0; y < _height; y++)
@@ -120,6 +149,8 @@ namespace DFS_MazeGenerator
                     AddToTotalCellsList_NewCellInstance(newCell);
                 }
             }
+            //
+            gridGenerated = true;
             StartCoroutine(StartGridAnimation());
         }
 
@@ -153,20 +184,22 @@ namespace DFS_MazeGenerator
                 totalCells[i].SetCellGameObjectVisibility(true);
             }
 
-            SetGridGeneratedBool(true);
+            gridAnimationsGenerated = true;
+            BeginDepthFirstSearchMazeSimulation();
         }
 
         private void CheckAnimationSpeed()
         {
-            if (generateMazeInstantly)
-                gridAnimationSpeed = InstantGeneration;
+            if (isFastestMazeGeneration)
+                gridAnimationSpeed = fastestGeneration;
             else
                 gridAnimationSpeed = animationSpeed;
         }
 
-        private void SetGridGeneratedBool(bool state)
+        private void BeginDepthFirstSearchMazeSimulation()
         {
-            gridGenerated = state;
+            if (gridAnimationsGenerated)
+                GenerateTheMaze();
         }
 
         #endregion
@@ -182,14 +215,29 @@ namespace DFS_MazeGenerator
             StartCoroutine(CalculateMazeGeneration(pointedCell));
         }
 
+        private IEnumerator CalculateMazeGeneration(Stack<Cell> pointedCell)
+        {
+            while (visitedCells.Count < totalCells.Count)
+            {
+                // check for possible cell neighbours next to the pointed cell:
+                List<int> possibleNeighbours = new List<int>();
+                List<Direction> availableDirs = new List<Direction>();
+                int pointedCellIndex = totalCells.IndexOf(pointedCell.Peek());
+                //
+                CheckAvailableNeighbors(pointedCell, availableDirs, possibleNeighbours, pointedCellIndex);
+                PickNextCellForWork(availableDirs, possibleNeighbours, pointedCell);
+                // avoids crashing:
+                yield return new WaitForSeconds(gridAnimationSpeed);
+            }
+        }
 
-        private void CheckAvailableNeghbors(Stack<Cell> pointedCell, List<Direction> availableDirections, List<int> possibleNeighbours, int cellIndex)
+        private void CheckAvailableNeighbors(Stack<Cell> pointedCell, List<Direction> availableDirections, List<int> possibleNeighbours, int cellIndex)
         {
             // Calculate the indexes
             int cellX = cellIndex / mazeHeight; // example: 46 / 10 (height) = 4 (int). denominates float.
             int cellY = cellIndex % mazeHeight; // example: 46 % 10 = 6 remainder of height.
 
-            // Checking available neghbors.
+            // Checking available neighbors.
             if (cellX < mazeWidth - 1)  // Check right neighbour:
                 CheckTheFollowingNeighbour(pointedCell, availableDirections, Direction.Right, possibleNeighbours, cellIndex + mazeHeight);
 
@@ -201,6 +249,20 @@ namespace DFS_MazeGenerator
 
             if (cellY > 0) // Check below neighbour:
                 CheckTheFollowingNeighbour(pointedCell, availableDirections, Direction.Down, possibleNeighbours, cellIndex - 1);
+        }
+
+        private void CheckTheFollowingNeighbour(Stack<Cell> pointedCell, List<Direction> directions, Direction dir, List<int> neighbours, int Index)
+        {
+            if (ThisNeighbourCellIsNotVisitedAndPointed(pointedCell, Index))
+            {
+                directions.Add(dir);
+                neighbours.Add(Index);
+            }
+        }
+
+        private bool ThisNeighbourCellIsNotVisitedAndPointed(Stack<Cell> pointedCell, int index)
+        {
+            return !visitedCells.Contains(totalCells[index]) && !pointedCell.Contains(totalCells[index]);
         }
 
 
@@ -224,44 +286,41 @@ namespace DFS_MazeGenerator
             }
         }
 
-        private IEnumerator CalculateMazeGeneration(Stack<Cell> pointedCell)
-        {
-            while (visitedCells.Count < totalCells.Count)
-            {
-                // check for possible cell neighbours next to the pointed cell:
-                List<int> possibleNeighbours = new List<int>();
-                List<Direction> availableDirs = new List<Direction>();
-                int pointedCellIndex = totalCells.IndexOf(pointedCell.Peek());
-                CheckAvailableNeghbors(pointedCell, availableDirs, possibleNeighbours, pointedCellIndex);
-                PickNextCellForWork(availableDirs, possibleNeighbours, pointedCell);
-                // avoids crashing:
-                yield return new WaitForSeconds(gridAnimationSpeed);
-            }
-        }
-
-
         private void RemoveCellWalls(Stack<Cell> pointedCell, Cell nextCell, Direction pointedCellDir)
         {
             pointedCell.Peek().RemoveWall((int)pointedCellDir);
             nextCell.RemoveWall((int)OppositeDirection(pointedCellDir));
         }
 
+        #endregion
 
-        private void CheckTheFollowingNeighbour(Stack<Cell> pointedCell, List<Direction> dirs, Direction dir, List<int> neighbours, int Index)
+        #region UI_Listeners:
+
+        private void BeginMazeSimulation()
         {
-            if (ThisNeighbourCellIsNotVisitedAndPointed(pointedCell, Index))
-            {
-                dirs.Add(dir);
-                neighbours.Add(Index);
-            }
+            CleanLists();
+            InitializeMazeSizeValues();
+            CreateNewMazeGrid(mazeWidth, mazeHeight);
         }
 
-        private bool ThisNeighbourCellIsNotVisitedAndPointed(Stack<Cell> pointedCell, int index)
+        private void DestroyMazeSimulation() => CleanLists();
+
+        private void ChangeMazeWidth(int value)
         {
-            return !visitedCells.Contains(totalCells[index]) && !pointedCell.Contains(totalCells[index]);
+            mazeWidth_Slider = value;
+        }
+        private void ChangeMazeHeight(int value)
+        {
+            mazeHeight_Slider = value;
+        }
+
+        private void ChangeMazeGenerationMode(bool state)
+        {
+            isFastestMazeGeneration = state;
         }
 
         #endregion
+
 
     }
 
