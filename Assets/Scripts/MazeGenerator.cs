@@ -144,6 +144,7 @@ namespace PerfectMazeDFS
                 {
                     Cell newCell = SpawnNewCellInstance(SetNewCellInstancePosition(x, y));
                     newCell.SetCellGameObjectVisibility(isCellVisible);
+                    SetCellParentAsChildToThisGameObject(newCell);
                     AddToTotalCellsList_NewCellInstance(newCell);
                 }
             }
@@ -166,6 +167,11 @@ namespace PerfectMazeDFS
         private void AddToTotalCellsList_NewCellInstance(Cell instance)
         {
             totalCells.Add(instance);
+        }
+
+        private void SetCellParentAsChildToThisGameObject(Cell cellInstance)
+        {
+            cellInstance.transform.parent = transform;
         }
 
         #endregion
