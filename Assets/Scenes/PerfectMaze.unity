@@ -479,6 +479,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2823754187943685311, guid: 8a2e76fc74403b54a86da0e1ebf3288c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2823754188339709265, guid: 8a2e76fc74403b54a86da0e1ebf3288c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2823754188607880811, guid: 8a2e76fc74403b54a86da0e1ebf3288c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2823754188715461405, guid: 8a2e76fc74403b54a86da0e1ebf3288c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2823754189354465111, guid: 8a2e76fc74403b54a86da0e1ebf3288c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7167426500208530724, guid: 8a2e76fc74403b54a86da0e1ebf3288c, type: 3}
       propertyPath: m_Name
       value: UI_Controller
