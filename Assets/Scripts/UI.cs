@@ -141,7 +141,7 @@ namespace PerfectMazeDFS
         private void SetMazeGenerationMode(bool state)
         {
             isFastestGeneration = !state;
-            OnClickMazeGenerationToggleChange?.Invoke(isFastestGeneration);
+            OnClickMazeGenerationToggleChange?.Invoke(state);
         }
 
         #endregion
