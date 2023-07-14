@@ -2,17 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DFS_MazeGenerator
+namespace PerfectMazeDFS
 {
     public class Cell : MonoBehaviour
     {
 
         [SerializeField] private GameObject[] cellWalls = null;
 
-        void Awake()
-        {
-            InitializeCellWalls();
-        }
+        void Awake() => InitializeCellWalls();
 
         private void InitializeCellWalls()
         {
@@ -22,10 +19,7 @@ namespace DFS_MazeGenerator
                 cellWalls[i] = transform.GetChild(i).gameObject;
         }
 
-        public void RemoveWall(int index)
-        {
-            SetWallState(index, false);
-        }
+        public void RemoveWall(int index) => SetWallState(index, false);
 
         public void SetCellGameObjectVisibility(bool state)
         {
@@ -38,10 +32,3 @@ namespace DFS_MazeGenerator
         }
     }
 }
-
-
-
-/*    public void SetCellVisiblity(bool state)
-    {
-        SetCellGameObjectVisibility(state);
-    }*/
