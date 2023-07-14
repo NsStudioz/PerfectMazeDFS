@@ -1139,6 +1139,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   newCameraPos: {x: 0, y: 0, z: 40}
   moveSpeed: 40
+  XZminValue: 0
+  XZmaxValue: 275
+  YminValue: -90
+  YmaxValue: 100
 --- !u!4 &1426583582
 Transform:
   m_ObjectHideFlags: 0
