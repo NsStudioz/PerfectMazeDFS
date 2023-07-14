@@ -4,8 +4,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor.PackageManager;
-using UnityEngine.Events;
+using PerfectMazeDFS_Pointers;
 
 namespace PerfectMazeDFS
 {
