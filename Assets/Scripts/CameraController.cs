@@ -30,11 +30,13 @@ namespace PerfectMazeDFS
             return moveSpeed * Time.deltaTime;
         }
 
+        // Update position of the camera:
         private void UpdateNewPosition()
         {
             transform.position = newCameraPos;
         }
 
+        // Camera boundries, this will prevent camera from moving too far away from screen:
         private void ClampCameraPositions()
         {
             newCameraPos.x = Mathf.Clamp(newCameraPos.x, XZminValue, XZmaxValue);
@@ -71,15 +73,22 @@ namespace PerfectMazeDFS
 
         #region Pointer_Listeners:
 
+        /// <summary>
+        /// Event listener for MoveCameraPointers. This will trigger camera movement:
+        /// </summary>
+        /// <param name="moveIndex"></param>
+        /// <param name="isMovePointerDown"></param>
         private void SetMovePointersState(int moveIndex, bool isMovePointerDown)
         {
             this.moveIndex = moveIndex;
             this.isMovePointerDown = isMovePointerDown;
-
-            /*        Debug.Log("Index = " + this.index);
-                    Debug.Log("PointerDown = " + this.isPointerDown);*/
         }
 
+        /// <summary>
+        /// Event listener for MoveCameraPointers. This will trigger camera zoom:
+        /// </summary>
+        /// <param name="zoomIndex"></param>
+        /// <param name="isZoomPointerDown"></param>
         private void SetZoomPointersState(int zoomIndex, bool isZoomPointerDown)
         {
             this.zoomIndex = zoomIndex;
@@ -88,9 +97,11 @@ namespace PerfectMazeDFS
 
         private void MoveCameraWithPointers() // 0 - Right, 1 - Left, 2 - Up, 3 - Down
         {
+            // if mouse pointer released:
             if (!isMovePointerDown)
                 return;
 
+            // if mouse click and held:
             if (moveIndex == 0)
                 MoveCameraRight();
             else if (moveIndex == 1)
@@ -103,9 +114,11 @@ namespace PerfectMazeDFS
 
         private void ZoomCameraWithPointers() // 0 - Right, 1 - Left, 2 - Up, 3 - Down
         {
+            // if mouse pointer released:
             if (!isZoomPointerDown)
                 return;
 
+            // if mouse click and held:
             if (zoomIndex == 0)
                 ZoomIn();
             else if (zoomIndex == 1)
@@ -114,7 +127,7 @@ namespace PerfectMazeDFS
 
         #endregion
 
-        #region Movement:
+        #region Camera Movement:
 
         private void MoveCameraUp()
         {
@@ -139,7 +152,7 @@ namespace PerfectMazeDFS
 
         #endregion
 
-        #region Zoom:
+        #region Camera Zoom:
 
         private void ZoomIn()
         {
@@ -153,34 +166,6 @@ namespace PerfectMazeDFS
         }
 
         #endregion
-
-        #region PC_Controls:
-        private void ZoomCameraControls_PC()
-        {
-            if (Input.GetKey(KeyCode.E))
-                ZoomIn();
-
-            else if (Input.GetKey(KeyCode.Q))
-                ZoomOut();
-        }
-
-        private void MoveCameraControls_PC()
-        {
-            if (Input.GetKey(KeyCode.W))
-                MoveCameraUp();
-
-            else if (Input.GetKey(KeyCode.S))
-                MoveCameraDown();
-
-            if (Input.GetKey(KeyCode.D))
-                MoveCameraRight();
-
-            else if (Input.GetKey(KeyCode.A))
-                MoveCameraLeft();
-        }
-
-        #endregion
-
     }
 }
 

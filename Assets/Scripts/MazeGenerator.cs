@@ -50,7 +50,7 @@ namespace PerfectMazeDFS
                 case Direction.Up: return Direction.Down;
                 case Direction.Down: return Direction.Up;
                 case Direction.Left: return Direction.Right;
-                default: return Direction.Up; // BECUASE WHY THE FUCK NOT
+                default: return Direction.Up; // default case;
             }
         }
 
@@ -135,8 +135,8 @@ namespace PerfectMazeDFS
         // Create a grid made from cells:
         private void CreateNewMazeGrid(int _width, int _height)
         {
-            this.mazeHeight = _height;
-            this.mazeWidth = _width;
+            mazeHeight = _height;
+            mazeWidth = _width;
             //
             for (int x = 0; x < _width; x++)
             {
@@ -223,11 +223,12 @@ namespace PerfectMazeDFS
         {
             while (visitedCells.Count < totalCells.Count)
             {
-                // check for possible cell neighbours next to the pointed cell:
+                // Declaring lists and a pointed cell index:
                 List<int> possibleNeighbours = new List<int>();
                 List<Direction> availableDirs = new List<Direction>();
                 int pointedCellIndex = totalCells.IndexOf(pointedCell.Peek());
-                //
+
+                // check for possible cell neighbours next to the pointed cell:
                 CheckAvailableNeighbors(pointedCell, availableDirs, possibleNeighbours, pointedCellIndex);
                 PickNextCellForWork(availableDirs, possibleNeighbours, pointedCell);
                 // avoids crashing:
@@ -235,6 +236,13 @@ namespace PerfectMazeDFS
             }
         }
 
+        /// <summary>
+        /// Find the unvisited cells adjacent to our pointed cell and add them to available and direction lists
+        /// </summary>
+        /// <param name="pointedCell"></param>
+        /// <param name="availableDirections"></param>
+        /// <param name="possibleNeighbours"></param>
+        /// <param name="cellIndex"></param>
         private void CheckAvailableNeighbors(Stack<Cell> pointedCell, List<Direction> availableDirections, List<int> possibleNeighbours, int cellIndex)
         {
             // Calculate the indexes
@@ -264,6 +272,12 @@ namespace PerfectMazeDFS
             }
         }
 
+        /// <summary>
+        /// Check if this cell is not visited and not currently pointed:
+        /// </summary>
+        /// <param name="pointedCell"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
         private bool ThisNeighbourCellIsNotVisitedAndPointed(Stack<Cell> pointedCell, int index)
         {
             return !visitedCells.Contains(totalCells[index]) && !pointedCell.Contains(totalCells[index]);
