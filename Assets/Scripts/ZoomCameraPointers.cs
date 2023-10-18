@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace PerfectMazeDFS_Pointers
+namespace PerfectMazeDFS.ZoomPointers
 {
     public class ZoomCameraPointers : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {

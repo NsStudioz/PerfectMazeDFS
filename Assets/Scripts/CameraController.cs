@@ -1,4 +1,5 @@
-using PerfectMazeDFS_Pointers;
+using PerfectMazeDFS.MovePointers;
+using PerfectMazeDFS.ZoomPointers;
 using UnityEngine;
 
 namespace PerfectMazeDFS
