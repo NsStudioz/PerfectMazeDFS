@@ -109,9 +109,9 @@ namespace PerfectMazeDFS
 
         #region Sliders:
 
-        void AdjustMazeWidth(float value) => SetMazeWidth(Mathf.RoundToInt(value));
+        private void AdjustMazeWidth(float value) => SetMazeWidth(Mathf.RoundToInt(value));
 
-        void AdjustMazeHeight(float value) => SetMazeHeight(Mathf.RoundToInt(value));
+        private void AdjustMazeHeight(float value) => SetMazeHeight(Mathf.RoundToInt(value));
 
         private void SetMazeWidth(int widthValue)
         {
